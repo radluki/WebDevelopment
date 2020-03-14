@@ -9,6 +9,12 @@
     <p>No polls are available.</p>
 {% endif %}
 
+<form action="{% url 'polls:luki_post' %}" method="post">
+    {% csrf_token %}
+    <input type="text" id="arg1" name="arg">
+    <input type="submit" value="Submit">
+</form>
+
 </body>
 
 {% load static %}

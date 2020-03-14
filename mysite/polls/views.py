@@ -3,6 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import Question, Choice
 
+def luki_post(request):
+    arg = request.POST.get("arg")
+    return HttpResponse(f"arg={arg}" if arg else "arg not received")
+
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
     context = {'latest_question_list': latest_question_list}
