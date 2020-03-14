@@ -9,10 +9,11 @@
     <p>No polls are available.</p>
 {% endif %}
 
-<form action="{% url 'polls:luki_post' %}" method="post">
+<form id="formLuki" action="{% url 'polls:luki_post' %}" method="post">
     {% csrf_token %}
     <input type="text" id="arg1" name="arg">
     <input type="submit" value="Submit">
+    <div onclick="document.getElementById('formLuki').submit();">Click me to post without button</div>
 </form>
 
 </body>
