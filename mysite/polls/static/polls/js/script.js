@@ -17,3 +17,10 @@ function createChessBoard() {
     }
     document.body.appendChild(board)
 }
+
+function printKeyStrock() {
+    var textField = document.querySelector("#arg1");
+    textField.addEventListener("keypress", function(){ console.log(textField.value.length)}, false)
+}
+
+printKeyStrock();
