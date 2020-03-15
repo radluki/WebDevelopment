@@ -1,7 +1,7 @@
 
 function createChessBoard() {
-    var board = document.createElement("div")
-    for(let r=0; r<8; r++){
+    var board = document.createElement("div");
+    for (let r=0; r<8; r++){
         var row = document.createElement("div")
         row.style.width = "400px"
         for(let c=0; c<8; c++){
@@ -20,7 +20,23 @@ function createChessBoard() {
 
 function printKeyStrock() {
     var textField = document.querySelector("#arg1");
-    textField.addEventListener("keypress", function(){ console.log(textField.value.length)}, false)
+    textField.addEventListener("keypress",
+      () => { console.log(textField.value.length)}, false)
+}
+
+class DummyObject {
+
+    constructor(name) {
+        this.name = name
+    }
+
+    print() {
+        console.log(`DummyObject<${this.name}>`)
+    }
 }
 
 printKeyStrock();
+d1 = new DummyObject("First")
+d2 = new DummyObject("Second")
+d1.print()
+d2.print()
