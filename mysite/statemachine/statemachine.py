@@ -46,7 +46,8 @@ class DisallowedState:
 
 
 alowable_transitions = {State:    {State, StateTwo},
-                        StateTwo: {State}}
+                        StateTwo: {State},
+                        DisallowedState: {State}}
 
 
 class StateMachine:
@@ -59,7 +60,7 @@ class StateMachine:
     def handle_event(self, event):
         new_state = self.state.handle_event(event)
         if self.alowable_transitions and \
-                new_state not in self.alowable_transitions:
+                new_state not in self.alowable_transitions[self.state.__class__]:
             raise Exception(
                 f"Disalowed transition from {self.state} to {new_state}")
         if new_state != self.state.__class__:
