@@ -1,4 +1,5 @@
-from .statemachine import *
+from .statemachine import StateMachine
+from .states import *
 import pytest
 
 
@@ -9,12 +10,12 @@ def check_event(machine, event, target_state):
 
 @pytest.fixture
 def machine_one():
-    return StateMachine(State())
+    return StateMachine(State(), alowable_transitions)
 
 
 @pytest.fixture
 def machine_two():
-    return StateMachine(StateTwo())
+    return StateMachine(StateTwo(), alowable_transitions)
 
 
 def test_state_one_string(machine_one):

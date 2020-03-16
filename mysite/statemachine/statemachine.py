@@ -1,4 +1,3 @@
-from functools import singledispatchmethod
 
 
 class PrivateMemory:
@@ -7,52 +6,9 @@ class PrivateMemory:
         return f"PrivateMemory {self.__dict__}"
 
 
-class DummyClass:
-    pass
-
-
-class State:
-
-    @singledispatchmethod
-    def handle_event(self, event):
-        self._priv.default = event
-        return StateTwo
-
-    @handle_event.register
-    def _(self, event: str):
-        self._priv.string = event
-        return self.__class__
-
-    @handle_event.register
-    def _(self, event: DummyClass):
-        self._priv.dummy = event
-        return self.__class__
-
-    @handle_event.register
-    def _(self, event: bool):
-        return DisallowedState
-
-
-class StateTwo:
-
-    def handle_event(self, event):
-        return State
-
-
-class DisallowedState:
-
-    def handle_event(self, event):
-        return State
-
-
-alowable_transitions = {State:    {State, StateTwo},
-                        StateTwo: {State},
-                        DisallowedState: {State}}
-
-
 class StateMachine:
 
-    def __init__(self, init_state, alowable_transitions=alowable_transitions):
+    def __init__(self, init_state, alowable_transitions=None):
         self.state = init_state
         self.set_new_state(init_state.__class__)
         self.alowable_transitions = alowable_transitions
