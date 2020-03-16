@@ -1,10 +1,6 @@
 from functools import singledispatchmethod
 
 
-def dummy():
-    return "dummy"
-
-
 class PrivateMemory:
 
     def __str__(self):
@@ -19,31 +15,23 @@ class State:
 
     @singledispatchmethod
     def handle_event(self, event):
-        self._priv.a = 44
-        priv = self._priv
-        state = self.__class__
-        print(f"Event {state} {priv} {event}")
+        self._priv.default = event
         return StateTwo
 
     @handle_event.register
     def _(self, event: str):
-        self._priv.b = 44
-        print(f"String event {event}")
+        self._priv.string = event
         return self.__class__
 
     @handle_event.register
     def _(self, event: DummyClass):
-        print("DummyEvent")
-        self._priv.c = 1
+        self._priv.dummy = event
         return self.__class__
 
 
 class StateTwo:
 
     def handle_event(self, event):
-        priv = self._priv
-        state = self.__class__
-        print(f"Event {state} {priv} {event}")
         return State
 
 
