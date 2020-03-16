@@ -24,8 +24,7 @@ def test_state_one_string(machine_one):
 
 
 def test_state_one_number(machine_one):
-    event = 10
-    check_event(machine_one, event, StateTwo)
+    check_event(machine_one, 10, StateTwo)
     assert not machine_one.state._priv.__dict__
 
 
@@ -35,7 +34,11 @@ def test_state_one_dummy_class(machine_one):
     assert machine_one.state._priv.dummy == event
 
 
+def test_state_one_bool(machine_one):
+    with pytest.raises(Exception):
+        machine_one.handle_event(True)
+
+
 def test_state_two_number(machine_two):
-    event = 10
-    check_event(machine_two, event, State)
+    check_event(machine_two, 10, State)
     assert not machine_two.state._priv.__dict__

@@ -28,6 +28,10 @@ class State:
         self._priv.dummy = event
         return self.__class__
 
+    @handle_event.register
+    def _(self, event: bool):
+        return DisallowedState
+
 
 class StateTwo:
 
@@ -35,14 +39,29 @@ class StateTwo:
         return State
 
 
+class DisallowedState:
+
+    def handle_event(self, event):
+        return State
+
+
+alowable_transitions = {State:    {State, StateTwo},
+                        StateTwo: {State}}
+
+
 class StateMachine:
 
-    def __init__(self, init_state):
+    def __init__(self, init_state, alowable_transitions=alowable_transitions):
         self.state = init_state
         self.set_new_state(init_state.__class__)
+        self.alowable_transitions = alowable_transitions
 
     def handle_event(self, event):
         new_state = self.state.handle_event(event)
+        if self.alowable_transitions and \
+                new_state not in self.alowable_transitions:
+            raise Exception(
+                f"Disalowed transition from {self.state} to {new_state}")
         if new_state != self.state.__class__:
             self.set_new_state(new_state)
 
