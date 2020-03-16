@@ -11,6 +11,10 @@ class PrivateMemory:
         return f"PrivateMemory {self.__dict__}"
 
 
+class DummyClass:
+    pass
+
+
 class State:
 
     @singledispatchmethod
@@ -25,6 +29,12 @@ class State:
     def _(self, event: str):
         self._priv.b = 44
         print(f"String event {event}")
+        return self.__class__
+
+    @handle_event.register
+    def _(self, event: DummyClass):
+        print("DummyEvent")
+        self._priv.c = 1
         return self.__class__
 
 
@@ -51,13 +61,3 @@ class StateMachine:
     def set_new_state(self, state):
         self.state.__class__ = state
         state._priv = PrivateMemory()
-
-
-if __name__ == '__main__':
-    initial_state = StateTwo()
-    sm = StateMachine(initial_state)
-    sm.handle_event(2)
-    sm.handle_event("ssss")
-    sm.handle_event(44)
-    sm.handle_event(44)
-    sm.handle_event(44)
